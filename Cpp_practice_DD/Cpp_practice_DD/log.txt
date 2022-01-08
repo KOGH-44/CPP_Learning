@@ -1,0 +1,6 @@
+[ERROR] abc
+[INFO] def
+[WARNING] ghi
+[ERROR] abc
+[INFO] def
+[WARNING] ghi
