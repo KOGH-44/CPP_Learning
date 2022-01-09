@@ -1038,30 +1038,81 @@
 
 // std::placeholder
 // ex1)
+//#include <iostream>
+//#include <functional>
+//using namespace std;
+//
+//int sum_1(int a, int b, int c) {
+//	return a + b + c;
+//}
+//int sum_2(int a, int b, int c) {
+//	return a + b * 10 + c;
+//}
+//int sum_3(int a, int b, int c) {
+//	return a + b * 10 + c * 100;
+//}
+//
+//int main() {
+//	auto func_1 = std::bind(sum_1, std::placeholders::_1, 2, 3);
+//	cout << func_1(1) << endl; // 1 + 2 + 3 = 6
+//	auto func_2 = std::bind(sum_2, std::placeholders::_1, std::placeholders::_2, 3);
+//	cout << func_2(2, 3) << endl; // 2 + 3 * 10 + 3 = 35 
+//	auto func_3 = std::bind(sum_3, 1, std::placeholders::_2, std::placeholders::_1);
+//	/*func_3에서 sum_3의 첫번째 인자는 이미 1로 고정 나머지 두 인자는 placeholder로 설정 됨
+//	func_3의 첫번째 인자는 원래 함수 sum_3의 세번째 인자가 되고
+//	func_3의 두번째 인자는 원래 함수 sum_3의 두번째 인자가 되고
+//	즉, 고정되지 않은 남은 인자들의 순서를 palceholder로 변경할 수 있음*/
+//	cout << func_3(2, 3); // 1 + 3 * 10 + 2 * 100 = 231
+//}
+
+
+//13.5 friend : 상속이 클래스 간의 부모 관계라면 C++에는 친구 관계도 있다. 
+// friend를 사용하면 public, protected, private 세 가지 접근 제어자를 무시하고 현재 클래스의 모든 멤버를 특정 대상에게 모두 공개할 수 있다! (이때 공개할 대상은 다른 클래스가 될 수도 있고, 함수가 될 수도 있다.)
+
+
+// friend가 없는 상황
+//#include <iostream>
+//using namespace std;
+//
+//class A {
+//	void fa() {}
+//};
+//
+//class B {
+//	void fb() {
+//		A a;
+//		a.fa(); // 에러!
+//	}
+//}; // class의 기본 접근 제어는 private이므로 B::fb() 메서드에서 a.fa()를 호출하려고 하면 에러가 발생한다.
+
+
+// friend를 사용하여 특별히 B에서만 A의 멤버에 접근하는 것을 허용할 수 있다.
+//#include <iostream>
+//using namespace std;
+//
+//class A {
+//	friend class B; // B라는 클래스에서 내 멤버에 접근하는 것은 허용한다.
+//	void fa() {}
+//};
+//
+//class B {
+//	void fb() {
+//		A a;
+//		a.fa(); // OK
+//	}
+//};
+
+
+// 다른 함수에게도 접근을 허용할 수도 있다.
 #include <iostream>
-#include <functional>
 using namespace std;
 
-int sum_1(int a, int b, int c) {
-	return a + b + c;
-}
-int sum_2(int a, int b, int c) {
-	return a + b * 10 + c;
-}
-int sum_3(int a, int b, int c) {
-	return a + b * 10 + c * 100;
-}
+class A {
+	friend void fg(); // fg라는 함수에서 A의 멤버에 접근하는 것이 허용된다.
+	void fa() {}
+};
 
-int main() {
-	auto func_1 = std::bind(sum_1, std::placeholders::_1, 2, 3);
-	cout << func_1(1) << endl; // 1 + 2 + 3 = 6
-	auto func_2 = std::bind(sum_2, std::placeholders::_1, std::placeholders::_2, 3);
-	cout << func_2(2, 3) << endl; // 2 + 3 * 10 + 3 = 35 
-	auto func_3 = std::bind(sum_3, 1, std::placeholders::_2, std::placeholders::_1);
-	/*func_3에서 sum_3의 첫번째 인자는 이미 1로 고정 나머지 두 인자는 placeholder로 설정 됨
-	func_3의 첫번째 인자는 원래 함수 sum_3의 세번째 인자가 되고
-	func_3의 두번째 인자는 원래 함수 sum_3의 두번째 인자가 되고
-	즉, 고정되지 않은 남은 인자들의 순서를 palceholder로 변경할 수 있음*/
-	cout << func_3(2, 3); // 1 + 3 * 10 + 2 * 100 = 231
+void fg() {
+	A a;
+	a.fa(); // OK
 }
-
