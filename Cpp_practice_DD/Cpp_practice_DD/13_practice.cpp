@@ -608,10 +608,10 @@
 //		cout << e << endl;
 //	}
 //	catch (const string& e) { // string("abc") 객체를 받음
-//		cout << e << endl;
+//		cout << e << "(const string&)" << endl;
 //	}
 //	catch (const char* e) { // "abc" 객체를 받음
-//		cout << e << endl;
+//		cout << e << "(const char*)" << endl;
 //	}
 //}
 
@@ -639,7 +639,7 @@
 //	catch (int e) {
 //		cout << e << endl;
 //	}
-//	catch (const string e) {
+//	catch (const string& e) {
 //		cout << e << endl;
 //	}
 //	catch (...) {
@@ -691,8 +691,7 @@
 //	Derived d;
 //	auto b = &d; // 우리가 의도한 것은 Base* b = &d; 이지만, auto를 사용하면 Derived* b = &d가 된다. 
 //	b->f();
-//} 
-// 또, auto를 너무 많이 사용하면 코드를 읽는 사람이 각 변수의 타입이 무엇인지 알기 어려워지므로 남용하지 않는 것이 좋다.
+//} // 또, auto를 너무 많이 사용하면 코드를 읽는 사람이 각 변수의 타입이 무엇인지 알기 어려워지므로 남용하지 않는 것이 좋다.
 
 
 // 13.4 함수 포인터, 함수 객체와 람다식
@@ -721,7 +720,7 @@
 //	bool (*fp)(int, int); // 함수 포인터 선언
 //	
 //	// 함수 포인터 정의하기
-//	fp = &compare; // OK
+//	//fp = &compare; // OK
 //	fp = compare; // OK. 윗줄과 같은 의미
 //
 //	// 함수 포인터 사용하기
@@ -729,7 +728,340 @@
 //	bool res2 = fp(1, 3); // OK
 //	//bool res3 = *fp(1, 3); // 에러!!! fp(1, 3)의 리턴 값을 역참조하라는 뜻이다! (이 예시의 경우 리턴값이 포인터 타입이 아니라 bool 타입이기 때문에 에러가 발생한다!)
 //	
-//	(*arrPtr)[1]; // arrPtr(배열 포인터)가 가리키는 배열의 1번 칸
-//	*ptrArr[1]; // ptrArr(포인터 배열)의 1번 칸이 가리키는 것
+//	//(*arrPtr)[1]; // arrPtr(배열 포인터)가 가리키는 배열의 1번 칸
+//	//*ptrArr[1]; // ptrArr(포인터 배열)의 1번 칸이 가리키는 것
 //}
+
+
+// 함수 포인터 사용 예시 2
+//int arrMin(const int arr[], int n) {
+//	int min = arr[0];
+//	for (int i = 1; i < n; i++) {
+//		if (min > arr[i])min = arr[i];
+//	}
+//	return min;
+//} // 만약 제곱의 최소값을 찾고 싶다면? 세제곱의 최소값은? 네제곱은? ... <- 이럴 때 함수 포인터를 사용하면 편하다! (임의의 함수가(제곱, 세제곱, ...) 무엇인지를 함수 포인터의 형태로 매개변수로 넘기는 것이다!)
+
+//ex13.9 함수 포인터를 사용해 배열의 각 칸에 임의의 함수를 적용한 값의 최소 찾기
+//#include <iostream>
+//using namespace std;
+//
+//int n_2(int n) { return n * 2; } // n의 2배를 리턴하는 함수
+//int square(int n) { return n * n; } // n의 제곱을 리턴하는 함수
+//int myFunc(int n) { return n * (n - 15) / 2; } // 어떤 다른 함수
+//
+//int arrFnMin(const int arr[], int n, int (*fp)(int)) {
+//	int min = fp(arr[0]);
+//	int min = (*fp)(arr[0]);
+//	for (int i = 1; i < n; i++) {
+//		if (min > fp(arr[i])) min = fp(arr[i]);
+//	}
+//	return min;
+//}
+//
+//int main() {
+//	int arr[7] = { 3, 1, -4, 1, 5, 9, -2 };
+//
+//	cout << arrFnMin(arr, 7, &n_2) << endl; // 2배의 최소
+//	cout << arrFnMin(arr, 7, square) << endl; // 제곱의 최소 
+//	cout << arrFnMin(arr, 7, &myFunc) << endl; // myFunc 함수를 적용한 것의 최소
+//}
+
+
+// 13.4.2 함수 객체 (Function object/Functor) : 함수처럼 작동하는 객체
+//ex13.10 함수 객체 사용해보기
+//#include <iostream>
+//using namespace std;
+//
+//class Equals { // 함수 객체 선언
+//public:
+//	Equals(int value) : value(value) {}
+//	bool operator()(int x) const { // () 연산자 오버로딩을 통해서 함수처럼 사용 가능함
+//		return x == value;
+//	}
+//
+//private:
+//	int value;
+//};
+//
+//int main() {
+//	Equals eq(123);
+//
+//	cout << eq(123) << endl; // 함수 객체를 통해 객체를 함수처럼 사용가능하다.
+//	cout << eq(12) << endl;
+//}
+
+
+// 함수 객체 사용해보기 2
+//#include <iostream>
+//using namespace std;
+//
+//class Equals {
+//public:
+//	Equals(int value) : value(value) {}
+//	
+//	bool operator()(int x) const {
+//		return x == value;
+//	}
+//	bool operator()(int x, int y) const {
+//		return x == value && y == value;
+//	}
+//
+//private:
+//	int value;
+//};
+//
+//int main() {
+//	Equals eq(123);
+//	
+//	cout << eq(123) << endl;
+//	cout << eq(12) << endl;
+//
+//	cout << eq(123, 123) << endl;
+//	cout << eq(123, 12) << endl;
+//} // 함수 포인터는 단순히 한 가지 함수만 가리킬 수 있지만, 함수 객체를 사용하면 이렇게 여러 변종의 함수를 만들 수 있다. (함수 포인터 하나를 가지고 여러 오버로딩된 함수를 가리킬 수는 없다.(함수 포인터를 만들 때는 가리킬 함수의 리턴 타입과 매개변수 목록을 알아야 하기 때문이다.))
+// 하지만 함수 객체를 사용하면 한 가지 이름(eq)만을 사용해 여러 오버로딩된 함수를 실행할 수도 있다는 장점이 있다.
+
+
+//ex13.11.1 함수 객체를 사용해 바꿔본 예제 13.9 (부모 클래스를 직접 만들어 동적 다형성을 이용하는 방법) (RTTI가 동반된다.)
+//#include <iostream>
+//using namespace std;
+//
+//struct Func { // 함수를 나타내는 상위 추상 클래스
+//	virtual int operator()(int n) const = 0;
+//};
+//
+//struct Square : Func { // n의 제곱을 나타내는 클래스
+//	int operator()(int n) const { return n * n; }
+//};
+//
+//struct MyFunc : Func { // 어떤 다른 함수를 나타내는 클래스
+//	int operator()(int n) const { return n * (n - 15) / 2; }
+//};
+//
+//int arrFnMin(const int arr[], int n, const Func& f) { // 래퍼런스를 받는 것도 가능하다.
+//	int min = f(arr[0]);
+//	for (int i = 0; i < n; i++) {
+//		if (min > f(arr[i])) min = f(arr[i]);
+//	}
+//	return min;
+//}
+//
+//int main() {
+//	int arr[7] = { 3, 1, -4, 1, 5, 9, -2 };
+//
+//	Square square;
+//	MyFunc myfunc;
+//
+//	cout << arrFnMin(arr, 7, square) << endl;
+//	cout << arrFnMin(arr, 7, myfunc) << endl;
+//}
+
+
+//ex13.11.2 함수 객체를 사용해 바꿔본 예제 13.9 (function 내장 클래스 템플릿을 이용하는 방법 (C++11부터 가능하다.))(하지만 이 방법은 성능에 좋지 않으므로 추천하지 않는다.)
+//#include <iostream>
+//#include <functional> // function을 사용하기 위해 필요
+//using namespace std;
+//
+//struct Square { // 함수 객체
+//	int operator()(int n) const { return n * n; }
+//} square_ob; // 함수 객체 선언과 동시에 만드는 방법.functional
+//
+//int square_fn(int n) {
+//	return n * n;
+//} // 심지어 함수 포인터도 function<int(int)> 타입의 객체로 넘길 수 있다.
+//
+//int arrFnMin(const int arr[], int n, const function<int(int)>& f) { // function 내장 클래스 템플릿 이용 (int을 리턴하고 int를 매개변수로 받는 어떤 함수 객체든지 이 타입을 가지고 받을 수 있다!)
+//	int min = f(arr[0]);
+//	for (int i = 0; i < n; i++) {
+//		if (min > f(arr[i])) min = f(arr[i]);
+//	}
+//	return min;
+//}
+//
+//int main() {
+//	int arr[7] = { 3, 1, -4, 1, 5, 9, -2 };
+//	//Square square_ob; // 함수 객체 선언
+//
+//	cout << arrFnMin(arr, 7, square_ob) << endl; // 함수 객체
+//	cout << arrFnMin(arr, 7, square_fn) << endl; // 함수 포인터
+//}
+
+
+//ex13.11.3 함수 객체를 사용해 바꿔본 예제 13.9 (템플릿으로 정적 다형성을 사용한 방법) (제일 빠르다.)
+//#include <iostream>
+//using namespace std;
+//
+//template<typename Fn_t>
+//int arrFnMin(const int arr[], int n, const Fn_t& f) { // f의 소괄호 연산이 가능하기만 하다면 (함수 객체(operator()), 함수, 함수포인터 등등...), 어떠한 타입이든 받을수 있는 것이다.
+//	int min = f(arr[0]);
+//	for (int i = 0; i < n; i++) {
+//		if (min > f(arr[i])) min = f(arr[i]);
+//	}
+//	return min;
+//}
+//
+//int square(int n) {
+//	return n * n;
+//}
+//
+//int MyFunc(int n) {
+//	return n * (n - 15) / 2;
+//}
+//
+//int main() {
+//	int arr[7] = { 1, 3, -4, 1, 5, 9, -2 };
+//
+//	cout << arrFnMin(arr, 7, square) << endl;
+//	cout << arrFnMin(arr, 7, MyFunc) << endl;
+//}
+
+
+// 13.4.3 람다식 (Lambda expression / Anonymous function) (C++11에서 새로 등장하였다.) : 특별히 붙여진 이름 없이 본문만 존재하는 함수이다. 따라서 등호의 좌변으로 대입되거나 함수의 인수로 넘겨져야만 사용할 수 있다. 
+// 람다식의 일반적인 형태 : [캡쳐] (매개변수_목록) -> 리턴_타입 { 함수_본문 }  // 캡쳐(capture)는 개시자(introducer)라고도 한다. (캡쳐는 람다식이 정의된 외부 환경을 람다식 안에서 사용하고 싶을 때 사용한다.)
+// 리턴_타입이 void일때는 -> 리턴_타입을 생략할 수 있다. : [캡쳐] (매개변수_목록) { 함수_본문 }
+// 리턴_타입과 매개변수_목록이 void일 경우는 (매개변수_목록) -> 리턴_타입도 생략할 수 있다. : [캡쳐] { 함수_본문 }
+// 람다식 사용 : [캡쳐] (매개변수_목록) -> 리턴_타입 { 함수_본문 } (매개변수);
+// 람다식의 타입은 함수 객체 타입이다! (분명 타입이 있지만 이름이 없기 때문에 그 타입 자체를 "이거다"라고 얘기할 수는 없다. 따라서 람다식을 어딘가에 대입할 때는 그 람다식이 변환될 수 있는 다른 타입을 사용하거나 auto 키워드를 사용해야 한다.)
+// 람다식은 function 타입이나 함수 포인터로도 변환될 수 있다. (단, 함수 포인터로 변환되기 위해서는 캡쳐가 비어있어야한다.)
+// function<int(int)> fa = [](int n) -> int { return n * n; }; // function 타입 객체
+// int (*fb) (int)       = [](int n) -> int { return n * n; }; // 함수 포인터
+// auto fc               = [](int n) -> int { return n * n; }; // auto
+
+//ex13.12 람다식을 사용해 고쳐본 예제 13.9
+//#include <iostream>
+//using namespace std;
+//
+//template<typename Fn_t>
+//int arrFnMin(const int arr[], int n, Fn_t f) {
+//	int min = f(arr[0]);
+//	for (int i = 1; i < n; i++) {
+//		if (min > f(arr[i])) min = f(arr[i]);
+//	}
+//	return min;
+//}
+//
+//int main() {
+//	int arr[7] = { 3, 1, -4, 1, 5, 9, -2 };
+//	
+//	cout << arrFnMin(arr, 7, [](int n)->int {return n * n; }) << endl;
+//	cout << arrFnMin(arr, 7, [](int n)->int {return n * (n - 15) / 2; }) << endl;
+//	int f = 1;
+//	cout << [](int)->int { return 200; }(300) << endl;
+//}
+
+
+// 람다 함수 & std::function, std::bind, for_each
+//#include <iostream>
+//#include <string>
+//#include <vector>
+//#include <algorithm>
+//#include <functional>
+//using namespace std;
+//
+//void goodbye(const string& s) {
+//	cout << "Goodbye " << s << endl;
+//}
+//
+//
+//class Object {
+//public:
+//	void hello(const string& s) {
+//		cout << "Hello " << s << endl;
+//	}
+//};
+//
+//int main() {
+//	// lambda-introducer
+//	// lambda-parameter-declaration
+//	// lambda-return-type-clause
+//	// compound-statement
+//	auto func = [](const int& i) -> void {cout << "Hello, world!" << endl; };
+//	func(123);
+//
+//	[](const int& i) -> void {cout << "Hello, world! 2" << endl; } (1234);
+//
+//	{
+//		string name = "JackJack";
+//		[&name]() { cout << name << endl; } (); 
+//		// [this]() {cout << name << endl; } (); // 클래스의 멤버를 정의할 때
+//		[&]() {cout << name << endl; } (); // 래퍼런스
+//		[=]() {cout << name << endl; } (); // 복사
+//
+//	}
+//
+//	vector<int> v;
+//	v.push_back(1);
+//	v.push_back(2);
+//
+//	auto func2 = [](int val) {cout << val << endl; };
+//	for_each(v.begin(), v.end(), func2); // algorithm 헤더 안에 정의된 for_each 사용
+//	for_each(v.begin(), v.end(), [](int val) { cout << val << endl; });
+//
+//	cout << []() -> int { return 1; }() << endl;
+//
+//	// std::function
+//	std::function<void(int)> func3 = func2;
+//	func3(123);
+//
+//	// std::bind
+//	std::function<void()>func4 = std::bind(func3, 456);
+//	func4();
+//
+//	{
+//		Object instance;
+//		auto f = std::bind(&Object::hello, &instance, std::placeholders::_1); // bind(멤버 함수, 객체, 매개변수)
+//
+//		f(string("World"));
+//
+//		auto f2 = std::bind(&goodbye, std::placeholders::_1); // bind(함수, 매개변수)
+//
+//		f2(string("World"));
+//	}
+//}
+
+
+// std::bind, std::placeholder 더 알아보기
+// std::bind(함수의 주소, 인자1, 인자2, ...);
+//#include <iostream>
+//#include <functional>
+//using namespace std;
+//
+//void hello(const string& s){
+//	cout << s << endl;
+//}
+//int main() {
+//	auto func_1 = std::bind(hello, "Hello world");
+//	func_1();
+//}
+
+
+// std::placeholder
+// ex1)
+#include <iostream>
+#include <functional>
+using namespace std;
+
+int sum_1(int a, int b, int c) {
+	return a + b + c;
+}
+int sum_2(int a, int b, int c) {
+	return a + b * 10 + c;
+}
+int sum_3(int a, int b, int c) {
+	return a + b * 10 + c * 100;
+}
+
+int main() {
+	auto func_1 = std::bind(sum_1, std::placeholders::_1, 2, 3);
+	cout << func_1(1) << endl; // 1 + 2 + 3 = 6
+	auto func_2 = std::bind(sum_2, std::placeholders::_1, std::placeholders::_2, 3);
+	cout << func_2(2, 3) << endl; // 2 + 3 * 10 + 3 = 35 
+	auto func_3 = std::bind(sum_3, 1, std::placeholders::_2, std::placeholders::_1);
+	/*func_3에서 sum_3의 첫번째 인자는 이미 1로 고정 나머지 두 인자는 placeholder로 설정 됨
+	func_3의 첫번째 인자는 원래 함수 sum_3의 세번째 인자가 되고
+	func_3의 두번째 인자는 원래 함수 sum_3의 두번째 인자가 되고
+	즉, 고정되지 않은 남은 인자들의 순서를 palceholder로 변경할 수 있음*/
+	cout << func_3(2, 3); // 1 + 3 * 10 + 2 * 100 = 231
+}
 
