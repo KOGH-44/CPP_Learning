@@ -678,6 +678,10 @@
 //int main() {
 //	int arr[7] = { 3, 1, 4, 1, 5, 9, 2 };
 //	
+//	for (int i = 0; i < 7; i++) {
+//		cout << arr[i] << endl;
+//	} // 기본 for문 사용
+//
 //	for (int i : arr) {
 //		cout << i << endl;
 //	} // auto 키워드를 사용하지 않고 범위 기반 for문 사용
@@ -697,23 +701,24 @@
 // 13.4 함수 포인터, 함수 객체와 람다식
 // 13.4.1 함수 포인터 (C와 C++에 존재) (Function pointer) : 함수를 가리키는 포인터 (함수도 메모리상 어딘가에 저장되기 때문에 주소값을 가지고 있고, 이 주소값을 함수 포인터에 저장할 수 있다!)
 // 선언 방법 : bool (*fp) (int, int); <- int 2개를 매개변수로 받고, bool을 리턴하는 함수를 가리키는 포인터를 만들고, 그 포인터의 이름을 fp로 하겠다는 뜻이다. 
-// 주의! bool *fp (int, int); <- int 2개를 매개변수로 받고, bool*를 리턴하는 함수의 프로토타입을 만드는 꼴이므로 함수 포인터를 선언할 때는 괄호를 까먹지 말고 적어야한다!
+// 주의! bool *fp (int, int); <- int 2개를 매개변수로 받고, bool*를 리턴하는 함수의 프로토타입을 만드는 꼴이므로 함수 포인터와는 완전 다르다. 함수 포인터를 선언할 때는 괄호를 까먹지 말고 적어야한다!
 
 
-// int (*arrPtr)[10]; // 배열(을 가리키는) 포인터
-// int *ptrArr[10]; // 포인터(로 이루어진) 배열
-// bool (*fp)(int, int); // 함수(를 가리키는) 포인터
-// bool *fp(int, int); // 포인터를 리턴하는 함수의 프로토타입
+ //int (*arrPtr)[10]; // 배열(을 가리키는) 포인터
+ //int *ptrArr[10]; // 포인터(로 이루어진) 배열
+ //bool (*fp)(int, int); // 함수(를 가리키는) 포인터
+ //bool *fp(int, int); // 포인터를 리턴하는 함수의 프로토타입
 
 
-// 함수 포인터에 어떤 함수의 주소를 집어넣으려면 우변에 함수의 주소를 쓰면 된다. 함수의 주소를 가져오기 위해서는 함수 이름 앞에 &를 쓰면 되는데, &를 생략하고 그냥 함수의 이름만 써도 된다. (보통은 생략 하는 경우가 많다.)
+// 함수 포인터에 어떤 함수의 주소를 집어넣으려면 우변에 함수의 주소를 쓰면 된다. 함수의 주소를 가져오기 위해서는 함수 이름 앞에 &를 쓰면 되는데, &를 생략하고 그냥 함수의 이름만 써도 된다. (보통은 생략 하는 경우가 많다.) (이 말인 즉슨, 함수의 이름 자체를 함수의 주소값으로도 쓸 수 있다는 것이다.)
 // 다음으로 함수 포인터가 가리키는 함수를 실행하기 위해서는 함수 포인터를 역참조한 후, () 속에 원하는 인수를 집어넣으면 되는데, 이때도 역참조를 생략할 수 있다. (역참조는 괄호안에서 이루어져야한다.)
 // 함수 포인터 사용 예시 1
 //#include <iostream>
 //using namespace std;
 //
 //bool compare(int a, int b) {
-//	return (a == b); // a와 b가 같으면 true, 아니면 false 리턴
+//////	return (a 
+// == b);  // a와 b가 같으면 true, 아니면 false 리턴
 //}
 //
 //int main() {
@@ -742,16 +747,17 @@
 //	return min;
 //} // 만약 제곱의 최소값을 찾고 싶다면? 세제곱의 최소값은? 네제곱은? ... <- 이럴 때 함수 포인터를 사용하면 편하다! (임의의 함수가(제곱, 세제곱, ...) 무엇인지를 함수 포인터의 형태로 매개변수로 넘기는 것이다!)
 
+
 //ex13.9 함수 포인터를 사용해 배열의 각 칸에 임의의 함수를 적용한 값의 최소 찾기
 //#include <iostream>
 //using namespace std;
 //
-//int n_2(int n) { return n * 2; } // n의 2배를 리턴하는 함수
+//int n_double(int n) { return n * 2; } // n의 2배를 리턴하는 함수
 //int square(int n) { return n * n; } // n의 제곱을 리턴하는 함수
 //int myFunc(int n) { return n * (n - 15) / 2; } // 어떤 다른 함수
 //
 //int arrFnMin(const int arr[], int n, int (*fp)(int)) {
-//	int min = fp(arr[0]);
+//	//int min = fp(arr[0]);
 //	int min = (*fp)(arr[0]);
 //	for (int i = 1; i < n; i++) {
 //		if (min > fp(arr[i])) min = fp(arr[i]);
@@ -762,7 +768,7 @@
 //int main() {
 //	int arr[7] = { 3, 1, -4, 1, 5, 9, -2 };
 //
-//	cout << arrFnMin(arr, 7, &n_2) << endl; // 2배의 최소
+//	cout << arrFnMin(arr, 7, n_double) << endl; // 2배의 최소
 //	cout << arrFnMin(arr, 7, square) << endl; // 제곱의 최소 
 //	cout << arrFnMin(arr, 7, &myFunc) << endl; // myFunc 함수를 적용한 것의 최소
 //}
@@ -818,6 +824,7 @@
 //	cout << eq(12) << endl;
 //
 //	cout << eq(123, 123) << endl;
+//	cout << eq(113, 113) << endl;
 //	cout << eq(123, 12) << endl;
 //} // 함수 포인터는 단순히 한 가지 함수만 가리킬 수 있지만, 함수 객체를 사용하면 이렇게 여러 변종의 함수를 만들 수 있다. (함수 포인터 하나를 가지고 여러 오버로딩된 함수를 가리킬 수는 없다.(함수 포인터를 만들 때는 가리킬 함수의 리턴 타입과 매개변수 목록을 알아야 하기 때문이다.))
 // 하지만 함수 객체를 사용하면 한 가지 이름(eq)만을 사용해 여러 오버로딩된 함수를 실행할 수도 있다는 장점이 있다.
@@ -865,7 +872,7 @@
 //
 //struct Square { // 함수 객체
 //	int operator()(int n) const { return n * n; }
-//} square_ob; // 함수 객체 선언과 동시에 만드는 방법.functional
+//} square_ob; // 함수 객체 선언과 동시에 만드는 방법
 //
 //int square_fn(int n) {
 //	return n * n;
@@ -880,7 +887,7 @@
 //}
 //
 //int main() {
-//	int arr[7] = { 3, 1, -4, 1, 5, 9, -2 };
+//	int arr[7] = { 3, 4, -4, 2, 5, 9, -2 };
 //	//Square square_ob; // 함수 객체 선언
 //
 //	cout << arrFnMin(arr, 7, square_ob) << endl; // 함수 객체
@@ -924,9 +931,9 @@
 // 람다식 사용 : [캡쳐] (매개변수_목록) -> 리턴_타입 { 함수_본문 } (매개변수);
 // 람다식의 타입은 함수 객체 타입이다! (분명 타입이 있지만 이름이 없기 때문에 그 타입 자체를 "이거다"라고 얘기할 수는 없다. 따라서 람다식을 어딘가에 대입할 때는 그 람다식이 변환될 수 있는 다른 타입을 사용하거나 auto 키워드를 사용해야 한다.)
 // 람다식은 function 타입이나 함수 포인터로도 변환될 수 있다. (단, 함수 포인터로 변환되기 위해서는 캡쳐가 비어있어야한다.)
-// function<int(int)> fa = [](int n) -> int { return n * n; }; // function 타입 객체
-// int (*fb) (int)       = [](int n) -> int { return n * n; }; // 함수 포인터
-// auto fc               = [](int n) -> int { return n * n; }; // auto
+ //function<int(int)> fa = [](int n) -> int { return n * n; }; // function 타입 객체
+ //int (*fb) (int)       = [](int n) -> int { return n * n; }; // 함수 포인터
+ //auto fc               = [](int n) -> int { return n * n; }; // auto
 
 //ex13.12 람다식을 사용해 고쳐본 예제 13.9
 //#include <iostream>
@@ -946,12 +953,10 @@
 //	
 //	cout << arrFnMin(arr, 7, [](int n)->int {return n * n; }) << endl;
 //	cout << arrFnMin(arr, 7, [](int n)->int {return n * (n - 15) / 2; }) << endl;
-//	int f = 1;
-//	cout << [](int)->int { return 200; }(300) << endl;
 //}
 
 
-// 람다 함수 & std::function, std::bind, for_each
+// 람다 함수와 std::function, std::bind, for_each
 //#include <iostream>
 //#include <string>
 //#include <vector>
@@ -976,29 +981,28 @@
 //	// lambda-parameter-declaration
 //	// lambda-return-type-clause
 //	// compound-statement
-//	auto func = [](const int& i) -> void {cout << "Hello, world!" << endl; };
+//	auto func = [](const int& i) -> void { cout << "Hello, world!" << endl; };
 //	func(123);
 //
-//	[](const int& i) -> void {cout << "Hello, world! 2" << endl; } (1234);
+//	[](const int& i) -> void { cout << "Hello, world! 2" << endl; } (1234);
 //
 //	{
 //		string name = "JackJack";
 //		[&name]() { cout << name << endl; } (); 
-//		// [this]() {cout << name << endl; } (); // 클래스의 멤버를 정의할 때
-//		[&]() {cout << name << endl; } (); // 래퍼런스
-//		[=]() {cout << name << endl; } (); // 복사
-//
+//		// [this]() { cout << name << endl; } (); // 클래스의 멤버를 정의할 때
+//		[&]() { cout << name << endl; } (); // 래퍼런스
+//		[=]() { cout << name << endl; } (); // 복사
 //	}
 //
 //	vector<int> v;
 //	v.push_back(1);
 //	v.push_back(2);
 //
-//	auto func2 = [](int val) {cout << val << endl; };
+//	auto func2 = [](int val) { cout << val << endl; };
 //	for_each(v.begin(), v.end(), func2); // algorithm 헤더 안에 정의된 for_each 사용
-//	for_each(v.begin(), v.end(), [](int val) { cout << val << endl; });
+//	for_each(v.begin(), v.end(), [](int val) { cout << val*100 << endl; });
 //
-//	cout << []() -> int { return 1; }() << endl;
+//	cout << []() -> int { return 44; }() << endl;
 //
 //	// std::function
 //	std::function<void(int)> func3 = func2;
@@ -1014,7 +1018,7 @@
 //
 //		f(string("World"));
 //
-//		auto f2 = std::bind(&goodbye, std::placeholders::_1); // bind(함수, 매개변수)
+//		auto f2 = std::bind(goodbye, std::placeholders::_1); // bind(함수, 매개변수)
 //
 //		f2(string("World"));
 //	}
@@ -1037,7 +1041,6 @@
 
 
 // std::placeholder
-// ex1)
 //#include <iostream>
 //#include <functional>
 //using namespace std;
@@ -1101,18 +1104,459 @@
 //		a.fa(); // OK
 //	}
 //};
+//
+//int main() {
+//	
+//}
 
 
 // 다른 함수에게도 접근을 허용할 수도 있다.
+//#include <iostream>
+//using namespace std;
+//
+//class A {
+//	friend void fg(); // fg라는 함수에서 A의 멤버에 접근하는 것이 허용된다.
+//	void fa() {}
+//};
+//
+//void fg() {
+//	A a;
+//	a.fa(); // OK
+//}
+//
+//int main() {
+//
+//}
+
+
+// 13.6 메모리 소유권과 스마트 포인터 : 스마트 포인터는 오로지 동적 할당된 객체에 대한 메모리 해제를 자동으로 해주기 위해 등장하였다.
+// 13.6.1 메모리 소유권 (Memory ownership) (메모리 소유권이란 어떠한 문법적인 것이 아니라 의미론적인 개념이다.)
+// 메모리 소유권 예시
+//#include <iostream>
+//using namespace std;
+//
+//int main() {
+//	int* a, * b;
+//	a = new int(5); // 동적 할당을 a에게 하였으므로 a라는 포인터에게는 어떤 동적 할당된 객체의 주솟값을 받아서 단순히 가리키는 역할뿐만 아니라
+//	// 특정 시기가 될 때까지 객체를 가리키는 상태를 유지하다가 객체를 다 사용하고 나면 안전하게 소멸시킬 의무가 있다. 이럴 때 a가 객체를 소유하고 있다고 말한다.
+//	b = a; // b는 객체를 "소유"하고 있는것이 아니다. b는 단지 그 객체를 참조하기만 했을 뿐, b가 객체의 생성과 소멸에 관여하지 않는 상황이고, 관여해서도 안된다.
+//	// 그렇기 때문에 delete b;를 하면 오히려 안되는 것이다. (의미론적으로는 안된다는 것이다. 문법적으로는 가능.) 
+//	// 그런데 필요에 따라서는 소유권을 "이전"해야 할 수도 있다.
+//	cout << *b << endl;
+//	delete a;
+//}
+
+
+// 메모리 소유권을 이전하는 예시
+//#include <iostream>
+//using namespace std;
+//
+//int main() {
+//	int* a, * b;
+//	a = new int(5);
+//	b = a; // b에게 소유권을 이전 (a가 메모리를 관리하고 있다가 b에게 소유권을 이전하였다.)
+//	cout << *b << endl;
+//	delete b; // b에게 소유권을 이전하였기 때문에 b를 통해서 객체를 소멸시켜준다.
+//} // 코드의 바뀐 부분은 delete b; 밖에 없다. 하지만 소유권은 이동하였다고 한다. 즉, 어떤 포인터가 객체를 소유하고 있는지는 오로지 그 코드를 짠 사람만 알고 있다는 뜻이기도 하다.
+// 하지만, 스마트 포인터를 사용하면 이런 소유권에 대한 문제를 일반 포인터보다 체계적으로 관리하고, 문법적인 차원에서 다룰 수 있다. 
+// 스마트 포인터의 종류로는 unique_ptr, shared_ptr, weak_ptr 총 세 종류가 있다.
+
+
+// 13.6.2 unique_ptr (유일한 포인터) : unique_ptr에는 복사 생성자나 복사 대입 연산자를 사용할 수 없다.
+// unique_ptr 설명
+//#include <iostream>
+//#include <memory>
+//using namespace std;
+//
+//int main() {
+//	unique_ptr<int> a(new int(5)); // unique_ptr 초기화 방법
+//	//unique_ptr<int> b = new int(5); // 에러! unique_ptr의 변환 생성자가 explicit으로 선언되어 있기 때문에 에러가 발생한다!
+//	unique_ptr<int> e(new int(5));
+//	
+//	cout << *a << endl; // 다음과 같이 일반 포인터와 비슷하게 사용할 수 있다.(* 연산자가 unique_ptr에 오버로딩되어 있기 때문이다.) a가 구조체나 클래스 타입을 가리키고 있다면 ->연산자도 사용할 수 있다.
+//	
+//	// 하지만 a 자체에 새로운 무언가를 대입하거나 a를 다른 포인터에 대입할 수는 없다. (a가 가리키는 객체는 반드시 a만 가리켜야 하기 때문이다.)
+//	//int* c = a; // 에러! unique_ptr은 다른 곳에 대입할 수 없다.
+//	//unique_ptr<int> d = a; // 에러! 좌변이 unique_ptr이라 할지라도 대입할 수 없다.
+//	//a = new int(7); // 에러! unique_ptr에 새로운 주솟값을 대입할 수는 없다.
+//
+//	// 하지만 unique_ptr에서도 소유권을 이전할 수 있는 방법은 존재한다! 바로 release라는 메서드를 쓰는 것!
+//
+//	// aa가 가지고 있던 소유권을 bb에게 이전한 예시
+//	unique_ptr<int> aa(new int(5));
+//	unique_ptr<int> bb(aa.release()); // aa가 가지고 있던 소유권을 bb에게 이전!
+//	// 이렇게 되면 aa는 더 이상 객체를 가리키지 않게 되고, 오직 bb만이 그 객체를 가리키게 된다.
+//
+//	// unique_ptr은 선언된 스코프가 끝나든지 해서 그 포인터(a, aa..)가 소멸되면 그 포인터가 가리키는 객체는 알아서 소멸된다. (일반 포인터와는 다른 부분)
+//
+//	// unique_ptr이 가리키는 객체를 중간에 바꾸는 방법 : reset이란 메서드를 사용한다!
+//	unique_ptr<int> aaa(new int(5));
+//	aaa.reset(new int(7)); // 원래 가리키고 있던 객체의 메모리를 해제한 후 새로 할당된 객체를 가리키게 된다.
+//	aaa.reset(NULL); // aaa가 아무 객체도 가리키지 않는 NULL 포인터인 상태가 된다.
+//	aaa.reset(); // aaa가 아무 객체도 가리키지 않는 NULL 포인터인 상태가 된다.
+//}
+
+
+//ex13.13 unique_ptr 사용하기
+//#include <iostream>
+//#include <memory> // 스마트 포인터가 선언된 라이브러리
+//using namespace std;
+//
+//class MyClass {
+//public:
+//	MyClass(int x) : x(x) {
+//		cout << "MyClass(int)" << endl;
+//	}
+//	~MyClass()
+//	{
+//		cout << "~MyClass()" << endl;
+//	}
+//	int GetX() const { return x; }
+//
+//private:
+//	int x;
+//};
+//
+//int main() {
+//	unique_ptr<MyClass> a(new MyClass(5));
+//	cout << a->GetX() << endl;
+//	cout << "=== 1 ===" << endl;
+//	a.reset(new MyClass(7));
+//	cout << a->GetX() << endl;
+//	cout << "=== 2 ===" << endl;
+//	a.reset(); // a가 가리키던 객체만 해제하고 아무것도 가리키지는 않음
+//	cout << "=== 3 ===" << endl;
+//	a.reset(new MyClass(9));
+//	cout << "=== 4 ===" << endl;
+//}
+
+
+// 13.6.3 shared_ptr (공유 포인터) : unique_ptr과는 다르게 여러 포인터가 한 객체를 가리킬 수 있다. (즉, 한 객체를 여러 포인터가 공유(share)할 수 있다.
+// shared_ptr은 현재 정확히 몇 개의 포인터가 그 객체를 가리키고 있는지를 내부에서 추가적으로 기록하고 있다.  (use_count라는 메서드가 이 역할을 한다.)
+// 포인터가 소멸될 때도 객체를 가리키는 포인터가 그 외에 하나라도 남아있다면 객체를 소멸시키지 않고, 그 객체를 가리키는 마지막 포인터까지 소멸되고 나서야 그 객체도 소멸된다.
+// 따라서 shared_ptr도 delete를 해야 할지 말지 걱정하지 않아도 된다.
+// shared_ptr의 핵심은 소유권이 한 포인터에 한정되어 있지 않다는 것이다. (일반 포인터를 사용한다면, 많은 포인터 중 정확히 한 포인터가 반드시 메모리 해제를 담당해야 하기 때문에 그 임무를 담당할 포인터가 그중 어떤 것인지를 잘 정해야 한다.
+// 하지만 shared_ptr을 사용하면 객체를 가리키는 포인터가 하나도 남지 않는 순간을 탐지하여 자동으로 객체를 삭제하므로 누가 객체 삭제를 담당할 것인지를 처음부터 정할 필요가 없게 된다.)
+
+
+//ex13.14 shared_ptr 사용해 보기
+//#include <iostream>
+//#include <memory>
+//using namespace std;
+//
+//class MyClass {
+//private:
+//	int x;
+//	
+//public:
+//	MyClass(int x) : x(x) {
+//		cout << "MyClass(int)" << endl;
+//	}
+//	~MyClass()
+//	{
+//		cout << "~MyClass()" << endl;
+//	}
+//
+//	int GetX() const { return x; }
+//};
+//
+//int main() {
+//	shared_ptr<MyClass> a(new MyClass(5));
+//	{
+//		shared_ptr<MyClass> b = a;
+//		cout << a->GetX() << endl;
+//		cout << b->GetX() << endl;
+//		cout << a.use_count() << endl;
+//		cout << b.use_count() << endl;
+//	} // b가 소멸되어 use_count의 값이 1로 바뀌게 된다.
+//	cout << a->GetX() << endl;
+//	cout << a.use_count() << endl;
+//} // a가 소멸되어 use_count의 값이 0으로 바뀌게 되고, 가리키던 객체가 소멸자가 호출된다.
+
+
+//ex13.15 shared_ptr에서 reset 메서드 사용하기
+//#include <iostream>
+//#include <memory>	
+//using namespace std;
+//
+//class MyClass {
+//private:
+//	int x;
+//
+//public:
+//	MyClass(int x) : x(x) {
+//		cout << "MyClass(int)" << endl;
+//	}
+//	~MyClass()
+//	{
+//		cout << "~MyClass()" << endl;
+//	}
+//
+//	int GetX() const { return x; }
+//};
+//
+//int main() {
+//	shared_ptr<MyClass> a(new MyClass(5));
+//	cout << "=== 1 ===" << endl;
+//	{
+//		cout << a.use_count() << endl;
+//		shared_ptr<MyClass> b = a;
+//		cout << b.use_count() << endl;
+//		a.reset(); // use_count가 1이 되어버리게 된다.
+//		cout << b.use_count() << endl;
+//		cout << "=== 2 ===" << endl;
+//	} // 스코프가 끝나고 b가 소멸되면서, use_count가 0이 되어버리게 되므로 객체가 소멸된다.
+//	cout << "=== 3 ===" << endl;
+//}
+
+
+// 13.6.4 weak_ptr : weak_ptr은 shared_ptr이 가리키는 객체를 똑같이 가리킬 수는 있지만 소유하지는 않는 포인터이다. 소유하지 않는다는 말은 소멸에 관여하지 않는다는 뜻이고, 따라서 weak_ptr이 어떤 객체를 가리켜도 그 객체를 참조하기만 할 뿐 use_count의 값이 바뀌지는 않는다.
+// ex
+//#include <iostream>
+//#include <memory>
+//using namespace std;
+//
+//int main() {
+//	shared_ptr<int> a(new int(5));
+//	weak_ptr<int> b = a;
+//	cout << a.use_count() << endl; // 1 출력
+//	cout << b.use_count() << endl; // 1 출력
+//}
+
+
+// weak_ptr은 객체에 대한 소유권이 없기 때문에 지금 가리키는 대상이 이미 소멸되었을 가능성이 있다!
+// ex
+//#include <iostream>
+//#include <memory>
+//using namespace std;
+//
+//int main() {
+//	shared_ptr<int> a(new int(5));
+//	weak_ptr<int> b = a;
+//	cout << *a << endl;
+//	//cout << *b << endl; // weak_ptr은 위에 이유(소멸 가능성) 때문에 바로 역참조 연산자를 사용할 수 없다! (expire과 lock이라는 메서드를 사용해야함)
+//	cout << b.use_count() << endl; // 1 출력
+//	a.reset(); // use_count 값이 0이 되어버리므로 객체가 소멸된다.
+//	cout << b.use_count() << endl; // 0 출력
+//}
+
+// weak_ptr 역참조 하는 방법
+//#include <iostream>
+//#include <memory>
+//using namespace std;
+//
+//int main() {
+//	shared_ptr<int> a(new int(5));
+//	weak_ptr<int> b = a;
+//	
+//	cout << *b.lock() << endl; // weak_ptr 역참조 하는 방법
+//
+//	//a.reset(); // 객체 소멸
+//	if (!b.expired()) {
+//		cout << *b.lock() << endl;
+//	}
+//	else {
+//		cout << "객체가 이미 소멸되었다!" << endl;
+//	}
+//}
+
+
+// weak_ptr은 객체를 가리키고 싶지만 소유권은 필요 없을 때 사용한다. (보통 이런 경우는 현재 가리키는 대상이 weak_ptr을 통해 역참조하는 것보다 늦게 사라진다는 것이 보장되는 상황이다.)
+// ex
+//#include <iostream>
+//#include <memory>
+//using namespace std;
+//
+//void print(weak_ptr<int> x) {
+//	cout << *x.lock() << endl;
+//}
+//
+//int main() {
+//	shared_ptr<int> a(new int(5));
+//	print(a); // 최소한 print 함수가 실행되는 동안은 x가 가리키는 객체가 살아있다는 것이 보장된다.
+//}
+
+
+// 13.7 STL (Standard Template Library) (표준 템플릿 라이브러리) : STL에는 프로그래밍을 편하게 해주기 위한 여러 클래스와 함수가 있다. (이름에서 알 수 있듯이, STL의 근간은 템플릿이다.)
+// STL은 컨테이너, 알고리즘, 이터레이터 등으로 이루어져 있다. (ex. 컨테이너 : vector, pair, map, ... / 알고리즘 : sort, ...)
+
+
+//13.7.1 vector (수학에서의 벡터와는 조금 다르다. vector는 배열과 비슷하지만, 배열과는 다르게 칸수가 고정되어 있지 않다.(vector는 필요에 따라 칸수가 자동으로 늘어나거나 줄어든다.))
+// vector를 사용하려면 #include <vector>를 인클루드해야 한다.
+// 벡터를 만드는 방법 : vector<int> vec; // int를 저장하는 vector vec를 만듬
+// 벡터를 처음 만들면 비어 있다. 새로운 값을 벡터에 집어넣으려면 push_back 메서드를 실행하면 된다. 이 메서드는 벡터의 맨 끝에 새로운 원소를 추가하는 메서드이다.
+// vec.push_back(1); {1}
+// vec.push_back(2); {1, 2}
+// vec.push_back(3); {1, 2, 3}
+
+// C++11부터는 벡터를 처음 만들 때부터 초기화 리스트를 사용해 여러 원소를 배열처럼 한꺼번에 초기화할 수 있다.
+// ex
+// vector<int> vec = { 1, 2, 3 };
+
+// vector에는 []연산자가 오버로딩되어 있기 때문에 벡터를 사용할 때는 배열과 같은 방법으로 사용할 수 있다.
+// ex
+//cout << vec[0] << endl; // 값 가져오기
+//vec[1] = 5; // 새로운 값 대입
+
+// vector는 배열과 마찬가지로 범위 기반 for문을 사용할 수 있다.
+//for (int vi : vec) {
+//	cout << vi << endl;
+//}
+
+// vector를 포함한 STL 컨테이너의 특징은 깊은 복사가 가능하다는 것이다.
+// vector<int> vec2 = vec; // vec의 모든 내용물이 깊은 복사됨
+
+// 따라서 벡터 안의 내용물이 많을수록 깊은 복사를 하는 데 시간이 오래 걸린다. 그렇기 때문에 벡터를 다른 함수로 넘겨줄 때 래퍼런스로 넘겨주는 것이 가능하다면 반드시 그렇게 해주는 것이 좋다
+// ex
+//#include <iostream>
+//#include <vector>
+//using namespace std;
+//
+//const void print(const vector<int>& v) {
+//	for (int vi : v) cout << vi << endl;
+//}
+//
+//int main() {
+//	vector<int> vec = { 1, 2, 3 };
+//	print(vec);
+//}
+
+
+// 13.7.2 pair (두 값을 순서쌍처럼 묶어놓을 수 있는 컨테이너이다. (이때 두 값의 타입이 달라도 된다.))
+// pair를 사용하려면 #include <utility>를 인클루드해야 한다.
+
+//pair<int, string> a = { 123, "abc" }; // int와 string을 묶은 pair a를 만들고, 거기에 각각 123과 "abc"라는 문자열을 집어넣으라는 뜻이다.
+// a의 앞쪽 원소를 의미할 때는 a.first, 뒤쪽 원소를 의미할 때는 a.second라고 적으면 된다.
+
+// 값을 가져오거나 새로운 값을 집어넣을 수도 있다.
+// ex
+//cout << a.first << endl; // 123 출력
+//a.second = "def"; // 새로운 값 집어넣기
+
+// 세 값 이상을 묶을 때 사용할 수 있는 컨테이너도 있다!
+
+
+// 13.7.3 map (다른 언어에서는 보통 사전(dictionary)으로 알려져 있는 기능이다. (어떤 값을 넣으면 그것에 해당하는 다른 값을 돌려준다.))
+// 이때 넣는 값을 키(key)라고 부르고, 키를 넣었을 때 나오는 값을 밸류(value)라고 부른다. (즉, 맵은 키와 밸류의 쌍으로 이루어진 집합이라고 할 수 있다.)
+// map을 사용하려면 #include <map>을 인클루드해야 한다.
+
+// 키는 중복될 수 없지만, 밸류는 중복될 수 있다!!!
+// 키끼리는 크기 비교가 가능해야 한다!!! (즉, 키를 가지고 '<'(부등호) 연산이 가능해야 한다.) (크기 비교가 불가능한 경우엔 unordered_map이라는 것을 사용한다.)
+// ex (과일의 이름 -> 키, 그 과일의 개수 -> 밸류)
+//#include <iostream>
+//#include <map>
+//using namespace std;
+//
+//int main() {
+//	map<string, int> fruitCnt; // 템플릿 파라미터는 보통 두 개이며, 앞쪽에는 키의 타입, 뒤쪽에는 밸류의 타입을 적는다.
+//
+//	// 새로운 키를 추가하는 방법 
+//	fruitCnt["apple"] = 7; // 단순히 새로운 키에 새로운 밸류를 넣으면 된다. (배열과 비슷하다.(인덱스 대신 키를 넣으면 된다.))
+//	fruitCnt["banana"] = 4;
+//	fruitCnt["orange"] = 10;
+//
+//	// 키("banana")의 밸류("banana"의 갯수)가 알고 싶다면?
+//	cout << fruitCnt["banana"] << endl; // 바나나의 개수 출력 (배열의 원소를 가져오듯이 쓰면 된다.)
+//	
+//	// 없는 키에 해당하는 밸류를 가져오려고 하면 0을 반환하고, 키를 생성한 후 0으로 저장한다!!!
+//	cout << fruitCnt["grape"] << endl; 
+//
+//	// 맵의 모든 원소를 범위 기반 for문으로 훑을 수도 있다.(이때는 키의 크기 순서대로 훑는다.)
+//	// string도 크기를 비교할 수 있으며, 사전순으로 앞서는 것이 더 작다!
+//	for (pair<string, int> fi : fruitCnt) {
+//		cout << fi.first << ": " << fi.second << "개" << endl;
+//	}
+//}
+
+
+// 13.7.4 sort (배열 따위의 원소들을 크기순으로 정렬하는 함수이다. 정렬 방법에는 각 방법마다 효율도 제각각이고, 어떤 정렬 방법을 사용할지는 컴파일러에게 달려있는데, 일단은 일반인이 생각해낼 수 있는 수준 이상으로 빨리 정렬된다고는 이야기할 수 있다.(그러니 정렬이 필요할 때 적극적으로 사용하자!))
+// sort를 사용하려면 #include <algorithm>을 인클루드해야 한다.
+// 배열을 정렬하기 위해서는 sort 함수에 배열의 시작을 가리키는 포인터와 끝을 가리키는 포인터를 넣는다. (이때, 끝을 가리키는 포인터는 가장 마지막 원소를 가리키는 포인터보다 하나 더 커야 한다.)
+// ex (배열을 정렬하는 예시)
+//#include <iostream>
+//#include <algorithm>
+//using namespace std;
+//
+//int main() {
+//	int arr[7] = { 7, 6, 5, 4, 3, 2, 1 };
+//	sort(arr, arr + 5);  // arr+0 이상, arr+n 미만까지 범위의 배열의 원소 값들을 정렬한다. (배열이 바뀌게 된다)
+//	for (int ai : arr) {
+//		cout << ai << endl;
+//	}
+//
+//	cout << endl; 
+//
+//	int arr_re[7] = { 3, 1, 4, 1, 5, 9, 2 };
+//	sort(arr_re, arr_re + 7);  // arr+0 이상, arr+n 미만까지 범위의 배열의 원소 값들을 정렬한다. (배열이 바뀌게 된다)
+//	for (int ai : arr_re) {
+//		cout << ai << endl;
+//	}
+//}
+
+
+// ex2 (vector를 정렬하는 예시)
+//#include <iostream>
+//#include <algorithm>
+//#include <vector>
+//using namespace std;
+//
+//int main() {
+//	vector<int> vec = { 3, 1, 4, 1, 5, 9, 2 };
+//	sort(vec.begin(), vec.end()); // begin()은 vector의 시작 원소의 주소값을, end()은 vector의 마지막 원소 + 1의 주소값을 가리킨다.
+//
+//	for (int vi : vec) {
+//		cout << vi << endl;
+//	}
+//}
+
+
+// 종합문제
+// 1번
+//#include <iostream>
+//using namespace std;
+//
+//double f1(double x) {
+//	return x * x / 10;
+//}
+//
+//double f2(int n) {
+//	return (double)n * n / 10;
+//}
+//
+//template<typename V_t>
+//void printFnVal(V_t f, int st, int en) {
+//	for (int i = st; i <= en; i++) {
+//		cout << f(i) << endl;
+//	}
+//}
+//
+//int main() {
+//	printFnVal(f1, 0, 10);
+//	printFnVal(f2, 0, 10);
+//
+//}
+
+
+// 2번
 #include <iostream>
 using namespace std;
 
-class A {
-	friend void fg(); // fg라는 함수에서 A의 멤버에 접근하는 것이 허용된다.
-	void fa() {}
+// ※ 함수 포인터 배열 (함수 포인터로 이루어진 배열)
+int (*OPS[4])(int, int) = {
+	[](int a, int b) -> int {return a + b; },
+	[](int a, int b) -> int {return a - b; },
+	[](int a, int b) -> int {return a * b; },
+	[](int a, int b) -> int {return a / b; }
 };
 
-void fg() {
-	A a;
-	a.fa(); // OK
+int main() {
+	int op;
+	int a, b;
+
+	cout << "연산의 종류 입력 (0: 덧셈, 1: 뺄셈, 2: 곱셈, 3: 나눗셈) : ";
+	cin >> op;
+	cout << "정수 2개 입력 : ";
+	cin >> a >> b;
+
+	cout << OPS[op](a, b) << endl;
 }

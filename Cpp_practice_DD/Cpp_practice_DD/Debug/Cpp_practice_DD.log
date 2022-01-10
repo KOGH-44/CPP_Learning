@@ -1,3 +1,2 @@
 ﻿  13_practice.cpp
-MSVCRTD.lib(exe_main.obj) : error LNK2019: _main"int __cdecl invoke_main(void)" (?invoke_main@@YAHXZ) 함수에서 참조되는 확인할 수 없는 외부 기호
-C:\Users\김근환\Desktop\CPP_Learning\Cpp_practice_DD\Debug\Cpp_practice_DD.exe : fatal error LNK1120: 1개의 확인할 수 없는 외부 참조입니다.
+  Cpp_practice_DD.vcxproj -> C:\Users\keunh\Desktop\CPP_Learning\Cpp_practice_DD\Debug\Cpp_practice_DD.exe
