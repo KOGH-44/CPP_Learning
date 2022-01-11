@@ -331,11 +331,354 @@
 //}
 
 
+//#include <iostream>
+//#include <memory>
+//using namespace std;
+//
+//int main() {
+//	unique_ptr<int> a(new int(5));
+//	//unique_ptr<int> b = new int(5);
+//	unique_ptr<int> e(new int(5));
+//
+//	cout << *a << endl;
+//
+//	//int* c = a;
+//	//a = new int(7);
+//	//unique_ptr<int> d = a;
+//	
+//	unique_ptr<int> aa(new int(5));
+//	unique_ptr<int> bb(aa.release());
+//
+//
+//	unique_ptr<int> aaa(new int(55)); 
+//	aa.reset(new int(5555)); // 원래 가리키던 객체(int 55) 해제후 새로운 객체 가리킴(int 5555)
+//	aa.reset(NULL); // 원래 가리키던 객체 (int 5555) 해제 후 아무 객체도 가리키지 않는 NULL 포인터 상태 됨
+//	aa.reset(); // Null pointer 상태 유지
+//
+//
+//	unique_ptr<int> aaaa(new int(44));
+//	cout << *aaaa << endl;
+//	//aaaa.reset();
+//	//cout << *aaaa << endl;
+//	aaaa.reset(new int(44444));
+//	cout << *aaaa << endl;
+//	aaaa.reset(NULL);
+//	cout << *aaaa << endl;
+//}
+
+//#include <iostream>
+//#include <memory>
+//using namespace std;
+//
+//class MyClass {
+//private:
+//	int x;
+//
+//public:
+//	MyClass(int x) : x(x) {
+//		cout << "MyClass(int)" << endl;
+//	}
+//	~MyClass()
+//	{
+//		cout << "~MyClass()" << endl;
+//	}
+//
+//	int GetX() const {
+//		return x;
+//	}
+//};
+//
+//int main() {
+//	unique_ptr<MyClass> a(new MyClass(5));
+//	cout << a->GetX() << endl;
+//	cout << "=== 1 ===" << endl;
+//	a.reset(new MyClass(7));
+//	cout << a->GetX() << endl;
+//	cout << "=== 2 ===" << endl;
+//	a.reset();
+//	cout << "=== 3 ===" << endl;
+//	a.reset(new MyClass(9));
+//	cout << "=== 4 ===" << endl;
+//}
 
 
+//#include <iostream>
+//#include <memory>
+//using namespace std;
+//
+//class MyClass {
+//private:
+//	int x;
+//
+//public:
+//	MyClass(int x) : x(x) {
+//		cout << "MyClass(int)" << endl;
+//	}
+//	~MyClass()
+//	{
+//		cout << "~MyClass()" << endl;
+//	}
+//
+//	int GetX() const {
+//		return x;
+//	}
+//};
+//
+//int main() {
+//	shared_ptr<MyClass> a(new MyClass(5));
+//	{
+//		shared_ptr<MyClass> b = a; 
+//		cout << a->GetX() << endl;
+//		cout << b->GetX() << endl;
+//		cout << a.use_count() << endl;
+//		cout << b.use_count() << endl;
+//	}
+//	cout << a->GetX() << endl;
+//	cout << a.use_count() << endl;
+//}
 
 
+//#include <iostream>
+//#include <memory>
+//using namespace std;
+//
+//class MyClass {
+//private:
+//	int x;
+//
+//public:
+//	MyClass(int x) : x(x) {
+//		cout << "MyClass(int)" << endl;
+//	}
+//	~MyClass() {
+//		cout << "~MyClass()" << endl;
+//	}
+//
+//	int GetX() const {
+//		return x;
+//	}
+//};
+//
+//int main() {
+//	shared_ptr<MyClass> a(new MyClass(5));
+//	cout << "=== 1 ===" << endl;
+//	{
+//		cout << a.use_count() << endl;
+//		shared_ptr<MyClass> b = a;
+//		cout << b.use_count() << endl;
+//		a.reset(); 
+//		cout << b.use_count() << endl;
+//		cout << "=== 2 ===" << endl;
+//	}
+//	cout << "=== 3 ===" << endl;
+//}
+
+//
+//#include <iostream>
+//#include <memory>
+//using namespace std;
+//
+//int main() {
+//	shared_ptr<int> a(new int(5));
+//	weak_ptr<int> b = a;
+//
+//	cout << *a << endl;
+//	//cout << *b << endl;
+//	cout << b.use_count() << endl;
+//	a.reset();
+//	cout << b.use_count() << endl;
+//}
 
 
+//#include <iostream>
+//#include <memory>
+//using namespace std;
+//
+//int main() {
+//	shared_ptr<int> a(new int(5));
+//	weak_ptr<int> b = a;
+//
+//	cout << *b.lock() << endl;
+//	//a.reset();
+//	if (!b.expired()) {
+//		cout << *b.lock() << endl;
+//	}
+//	else {
+//		cout << "객체가 이미 소멸되었다!" << endl;
+//	}
+//}
 
 
+//#include <iostream>
+//#include <memory>
+//using namespace std;
+//
+//void Print(weak_ptr<int> x) {
+//	cout << *x.lock() << endl;
+//}
+//
+//int main() {
+//	shared_ptr<int> a(new int(5));
+//	Print(a);
+//}
+
+//#include <iostream>
+//#include <vector>
+//using namespace std;
+//
+//int main() {
+//	vector<int> vec;
+//	vec.push_back(1);
+//	vec.push_back(2);
+//	vec.push_back(3);
+//	
+//	for (auto vi : vec) {
+//		cout << vi << endl;
+//	}
+//	
+//	vector<int> vec2 = vec; // 벡터는 깊은 복사가 일어난다.
+//	// STL 컨테이너들의 특 : 깊은 복사가 가능함
+//	for (auto vi : vec2) {
+//		cout << vi << endl;
+//	}
+//}
+
+
+//#include <iostream>
+//#include <vector>
+//using namespace std;
+//
+//const void Print(const vector<int>& v) {
+//	for (auto vi : v) {
+//		cout << vi << endl;
+//	}
+//}
+//
+//int main() {
+//	vector<int> vec = { 1,2,3 };
+//	vec.push_back(4);
+//	vec.push_back(5);
+//	Print(vec);
+//}
+
+
+//#include <iostream>
+//#include <utility>
+//
+//int main() {
+//	std::pair<int, std::string> p = { 123, "abc" };
+//
+//	std::cout << p.first << std::endl;
+//	std::cout << p.second << std::endl;
+//
+//	p.first = 12345;
+//	p.second = "aaaaaa";
+//
+//	std::cout << p.first << std::endl;
+//	std::cout << p.second << std::endl;
+//
+//}
+
+//#include <iostream>
+//#include <map>
+//#include <utility>
+//using namespace std;
+//
+//int main() {
+//	map<string, string> fruitCnt;
+//	fruitCnt["Banana"] = "six";
+//	fruitCnt["Grape"] = "five";
+//	fruitCnt["Orange"] = "ten";
+//
+//	cout << fruitCnt["Banana"] << endl;
+//	cout << fruitCnt["Strawberry"] << endl;
+//
+//	fruitCnt["banana"] = "ten";
+//	
+//	for (auto fi : fruitCnt) {
+//		cout << fi.first << " : " << fi.second << "개" << endl;
+//	}
+//}
+
+
+//#include <iostream>
+//#include <algorithm>
+//using namespace std;
+//
+//int main() {
+//	int arr[] = { 7,6,5,4,3,2,1 };
+//	sort(arr, arr + 5);
+//	for (auto ai : arr) {
+//		cout << ai << endl;
+//	}
+//
+//	cout << endl;
+//
+//	int arr_re[] = { 3,1,4,1,5,9,2 };
+//	sort(arr_re, arr_re + 7);
+//	for (int ai : arr_re) {
+//		cout << ai << endl;
+//	}
+//}
+
+
+//#include <iostream>
+//#include <algorithm>
+//#include <vector>
+//using namespace std;
+//
+//int main() {
+//	vector<int> vec = { 9,8,7,6,5,4,3,2,1 };
+//	sort(vec.begin(), vec.end()); 
+//
+//	for (int vi : vec) {
+//		cout << vi << endl;
+//	}
+//}
+
+
+//#include <iostream>
+//using namespace std;
+//
+//double f1(double x) {
+//	return x * x / 10;
+//}
+//
+//double f2(int n) {
+//	return (double)n * n / 10;
+//}
+//
+//template<typename V_t>
+//void printFnVal(V_t f, int st, int en) {
+//	for (int i = st; i <= en; i++) {
+//		cout << f(i) << endl;
+//	}
+//}
+//
+//int main() {
+//	printFnVal(f1, 0, 10);
+//	printFnVal(f2, 0, 10);
+//}
+
+
+//#include <iostream>
+//using namespace std;
+//
+//int (*OPS[])(int, int) = {
+//	[](int a, int b)->int {return a + b; },
+//	[](int a, int b)->int {return a - b; },
+//	[](int a, int b)->int {return a * b; },
+//	[](int a, int b)->int {return a / b; },
+//};
+//
+//int main() {
+//	int op;
+//	int a, b;
+//
+//	cout << "연산의 종류 입력 (0: 덧셈, 1: 뺄셈, 2: 곱셈, 3: 나눗셈) : ";
+//	cin >> op;
+//	cout << "정수 2개 입력 : ";
+//	cin >> a >> b;
+//
+//	cout << OPS[op](a, b) << endl;
+//}
